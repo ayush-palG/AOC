@@ -53,11 +53,9 @@ int main(void)
   char ch;
   Coord curr_coord[2];
   initialize_coord(&cl);
-  size_t counter = 0;
   size_t index = 0;
   
   while ((ch = fgetc(file)) != EOF) {
-    index = counter % 2;
     if (ch == '^') {
       curr_coord[index].x += 1;
     } else if (ch == '>') {
@@ -69,7 +67,8 @@ int main(void)
     }
 
     if (!is_gift_recieved(&cl, curr_coord[index])) cl.coord[cl.size++] = curr_coord[index];
-    counter += 1;
+    index += 1;
+    index %= 2;
   }
 
   printf("%zu\n", cl.size);

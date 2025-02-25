@@ -23,8 +23,12 @@ int main(void)
   size_t index = 0;
   size_t wrapping_paper_req = 0;
   
-  while ((ch = fgetc(file)) != EOF) {
-    if (ch == '\n') {
+  while ((ch = fgetc(file)) != EOF) {    
+    if ('0' <= ch && ch <= '9') {
+      nums[index] = nums[index] * 10 + ch - '0';
+    } else if (ch == 'x') {
+      index += 1;
+    } else if (ch == '\n') {
       lbh_nums[0] = nums[0] * nums[1];
       lbh_nums[1] = nums[0] * nums[2];
       lbh_nums[2] = nums[1] * nums[2];
@@ -33,22 +37,9 @@ int main(void)
       index = 0;
       nums[0] = nums[1] = nums[2] = 0;
       lbh_nums[0] = lbh_nums[1] = lbh_nums[2] = 0;
-      continue;
-    }
-    
-    if ('0' <= ch && ch <= '9') {
-      nums[index] = nums[index] * 10 + ch - '0';
-    } else if (ch == 'x') {
-      index += 1;
     }
   }
-
-  lbh_nums[0] = nums[0] * nums[1];
-  lbh_nums[1] = nums[0] * nums[2];
-  lbh_nums[2] = nums[1] * nums[2];
-  wrapping_paper_req += 2 * (lbh_nums[0] + lbh_nums[1] + lbh_nums[2]) + min3(lbh_nums[0], lbh_nums[1], lbh_nums[2]);
-
-  printf("%3d %3d %3d\n", nums[0], nums[1], nums[2]);
+  
   printf("%zu\n", wrapping_paper_req);
   
   return 0;
